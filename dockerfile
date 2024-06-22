@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM node:20-buster-slim AS base
 ENV NEXT_TELEMETRY_DISABLED="1"
 RUN mkdir /app
 WORKDIR /app
