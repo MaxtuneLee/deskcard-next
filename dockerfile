@@ -1,4 +1,4 @@
-FROM node:20-buster-slim AS base
+FROM node:20-bookworm-slim AS base
 ENV NEXT_TELEMETRY_DISABLED="1"
 RUN mkdir /app
 WORKDIR /app
@@ -8,7 +8,7 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 ENV OUTPUT_STANDALONE="1"
 RUN corepack enable
-RUN apk update && apk upgrade && apk add gcc musl-dev g++ make python3
+RUN apt update && apt install python3 build-essential
 COPY . /app
 RUN pnpm install --frozen-lockfile
 RUN pnpm run build
