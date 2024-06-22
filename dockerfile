@@ -10,6 +10,8 @@ ENV OUTPUT_STANDALONE="1"
 RUN corepack enable
 COPY . /app
 RUN pnpm install --frozen-lockfile
+RUN touch .env
+RUN echo "APP_ID=$APP_ID\nAPP_SECRET=$APP_SECRET\nNONCESTR=$APP_SECRET" >> .env
 RUN pnpm run build
 
 FROM base
