@@ -8,6 +8,7 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 ENV OUTPUT_STANDALONE="1"
 RUN corepack enable
+RUN apk update && apk upgrade && apk add gcc musl-dev g++ make python3
 COPY . /app
 RUN pnpm install --frozen-lockfile
 RUN pnpm run build
