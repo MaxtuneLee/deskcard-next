@@ -7,7 +7,7 @@ FROM base AS build
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 ENV OUTPUT_STANDALONE="1"
-RUN sudo sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+RUN sed -i 's@deb.debian.org@mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/debian.sources
 RUN corepack enable
 RUN apt update && apt install python3 build-essential
 COPY . /app
