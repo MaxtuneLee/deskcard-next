@@ -6,7 +6,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 # Install dependencies and build the application
-FROM base AS build
+FROM base AS builder
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 ENV NEXT_TELEMETRY_DISABLED 1
@@ -19,16 +19,13 @@ RUN pnpm run build
 # Install production dependencies only
 RUN pnpm install --prod --ignore-scripts --prefer-offline
 
-FROM node:20-slim AS runner
+# Use alpine for the final image to reduce the image size
+FROM node:20-alpine AS runner
 WORKDIR /app
 
-COPY --from=build /app/.next/standalone ./
-COPY --from=build /app/.next/static ./.next/static
-COPY --from=build /app/public ./public
-
-# Copy the environment configuration
-ARG CONFIG_FILE
-COPY $CONFIG_FILE /app/.env.local
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
 # Set environment variables
 ENV NODE_ENV production
