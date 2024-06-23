@@ -42,11 +42,11 @@ Fill in the `.env.example` file with your configuration. Or you can create any o
 Build the image
 
 ```bash
-docker build --build-arg CONFIG_FILE=.env.example -t deskcard-next .
+docker build -t deskcard-next .
 ```
 
 Run the container
 
 ```bash
-docker run -d -p 3000:3000 deskcard-next
+docker run -d -p 3000:3000 --env-file .env.example deskcard-next
 ```
